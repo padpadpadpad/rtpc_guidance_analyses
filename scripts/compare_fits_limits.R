@@ -162,6 +162,9 @@ ggplot(d_aic_summary, aes(aic_diff, prop)) +
   labs(x = 'Outcome of AIC comparison',
        y = 'Proportion of curves')
 
+# save out
+ggsave('plots/aic_limits_vs_nolimits.png', width = 6, height = 4)
+
 # spain is really bad at fitting. Need to check why
 
 # compare the coefficients for the fits with and without limits
