@@ -62,6 +62,18 @@ pb <- progress::progress_bar$new(total = number_of_curves*number_of_models,
 get_model_names() %>% length()
 
 d_fits <- nest(d, data = c(temp, rate)) %>%
+  mutate(
+    hinshelwood = map(data, possibly(~nls_multstart_progress(rate~hinshelwood_1947(temp = temp, a, e, b, eh),
+                                                             data = .x,
+                                                             iter = c(5,5,5,5),
+                                                             start_lower = get_start_vals(.x$temp, .x$rate, model_name = 'hinshelwood_1947') * 0.25,
+                                                             start_upper = get_start_vals(.x$temp, .x$rate, model_name = 'hinshelwood_1947') * 1.75,
+                                                             lower = get_lower_lims(.x$temp, .x$rate, model_name = 'hinshelwood_1947'),
+                                                             upper = get_upper_lims(.x$temp, .x$rate, model_name = 'hinshelwood_1947'),
+                                                             supp_errors = 'Y',
+                                                             convergence_count = FALSE), NA)))
+
+d_fits <- nest(d, data = c(temp, rate)) %>%
   mutate(beta = map(data, possibly(~nls_multstart_progress(rate~beta_2012(temp = temp, a, b, c, d, e),
                                          data = .x,
                                          iter = c(6,6,6,6,6),
@@ -143,7 +155,7 @@ d_fits <- nest(d, data = c(temp, rate)) %>%
                                            upper = get_upper_lims(.x$temp, .x$rate, model_name = 'joehnk_2008'),
                                            supp_errors = 'Y',
                                            convergence_count = FALSE), NA)),
-         johnson_lewin = map(data, ~suppressWarnings(nls_multstart_progress(rate~ johnsonlewin_1946(temp = temp, r0, e, eh, topt),
+         johnson_lewin = map(data, possibly(~nls_multstart_progress(rate~ johnsonlewin_1946(temp = temp, r0, e, eh, topt),
                                                                    data = .x,
                                                                    iter = c(4,4,4,4),
                                                                    start_lower = get_start_vals(.x$temp, .x$rate, model_name = 'johnsonlewin_1946') * 0.25,
