@@ -1,0 +1,9 @@
+.Rproj.user
+.Rhistory
+.Rdata
+.httr-oauth
+.DS_Store
+.quarto
+data/tpc_model_summaries.gsheet
+data/bibliography.bib
+scripts/all_tpcs_chlorella2.r
