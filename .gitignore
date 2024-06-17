@@ -7,3 +7,4 @@
 data/tpc_model_summaries.gsheet
 data/bibliography.bib
 scripts/all_tpcs_chlorella2.r
+data/thermal_performance_datasets.csv

@@ -69,6 +69,7 @@ check_beta <- microbenchmark(
 )
 
 plan(sequential)
+gc()
 
 check_beta
 
